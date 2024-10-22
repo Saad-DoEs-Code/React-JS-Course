@@ -85,23 +85,23 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Menu</h2>
-      <Pizza />
-      <Pizza />
-      <Pizza />
+      {/* To pass anything as props other than a STRING, we use JS Curly Braces {} */}
+      <Pizza name="Focaccia" ingredients='Bread with italian olive oil and rosemary' image="pizzas/focaccia.jpg" price={10} />
     </main>
   );
 }
-function Pizza() {
+function Pizza(_props) {
   return (
-    <div className="">
+    <div className="pizza">
       <img
-        // height={"100px"}
-        // width={"100px"}
-        src="pizzas/focaccia.jpg"
+        src={_props.image}
         alt="focaccia pizza"
       />
-      <h3>Focaccia</h3>
-      <p>Bread with italian olive oil and rosemary</p>
+      <div>
+      <h3>{_props.name}</h3>
+      <p>{_props.ingredients}</p>
+      <span>{_props.price}</span>
+      </div>
     </div>
   );
 }
