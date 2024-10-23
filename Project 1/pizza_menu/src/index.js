@@ -73,36 +73,59 @@ function Footer() {
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
   return { isOpen } ? (
-    <footer className="footer">{new Date().toLocaleTimeString()}... We are open now!!!</footer>
+    <OpenNow />
   ) : (
-    <footer className="footer">
-      {new Date().toLocaleTimeString()}... Sorry, We are closed!!!
-    </footer>
+    <ClosedNow openHour={openHour} />
   );
 }
 
+function OpenNow(){
+  return (<div className="order">
+    <footer className="footer">{new Date().toLocaleTimeString()}... We are open now!!!</footer>
+    <button className="btn">Order</button>
+  </div>) 
+}
+
+function ClosedNow({openHour}){
+  return <footer className="footer">
+      {new Date().toLocaleTimeString()}... Sorry, We are closed!!! Will Open at {openHour}
+    </footer>
+}
+
 function Menu() {
+  const pizzas = pizzaData;
+  // const pizzas =[]
+  const numPizzas= pizzas.length;
   return (
     <main className="menu">
       <h2>Menu</h2>
-      {/* To pass anything as props other than a STRING, we use JS Curly Braces {} */}
-      <Pizza name="Focaccia" ingredients='Bread with italian olive oil and rosemary' image="pizzas/focaccia.jpg" price={10} />
+      {/* {pizzas && <ul className="pizzas">
+        {pizzaData.map((pizza)=>{
+          return <Pizza pizzaObj = {pizza} key={pizza.name}/>
+        })}
+      </ul> } */}
+
+      {numPizzas >0 ? <ul className={`pizzas`}>
+        {pizzaData.map((pizza)=>{
+          return <Pizza pizzaObj = {pizza} key={pizza.name}/>
+        })}
+      </ul>: <p>We are working on our menu, please come back later...</p>}
     </main>
   );
 }
-function Pizza(_props) {
+function Pizza({pizzaObj}) {
   return (
-    <div className="pizza">
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out":""}`}>
       <img
-        src={_props.image}
-        alt="focaccia pizza"
+        src={pizzaObj.photoName}
+        alt={pizzaObj.name}
       />
       <div>
-      <h3>{_props.name}</h3>
-      <p>{_props.ingredients}</p>
-      <span>{_props.price}</span>
+      <h3>{pizzaObj.name}</h3>
+      <p>{pizzaObj.ingredients}</p>
+      <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price }</span>
       </div>
-    </div>
+    </li>
   );
 }
 
